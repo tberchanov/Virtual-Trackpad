@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad
+package com.example.android.virtualtrackpad.repository.device
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
@@ -6,7 +6,7 @@ import java.io.IOException
 import java.io.OutputStream
 import java.util.*
 
-class BluetoothDeviceRepository() : DeviceRepository {
+class BluetoothDeviceRepository : DeviceRepository {
 
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 

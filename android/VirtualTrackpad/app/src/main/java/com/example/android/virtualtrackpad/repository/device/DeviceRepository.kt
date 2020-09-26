@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad
+package com.example.android.virtualtrackpad.repository.device
 
 interface DeviceRepository {
 

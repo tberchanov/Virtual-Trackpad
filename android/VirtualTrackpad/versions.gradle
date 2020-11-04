@@ -1,5 +1,7 @@
 ext {
     versions = [
+            gradle    : "4.1.0",
+            kotlin    : "1.4.10",
             code      : 1,
             name      : "1.0",
             sdk       : [
@@ -21,7 +23,10 @@ ext {
                             lifecycle: "1.0.0-beta11",
                             view     : "1.0.0-alpha18",
                     ],
-                    hilt            : "1.0.0-alpha02"
+                    hilt            : [
+                            plugin   : "2.29.1-alpha",
+                            viewmodel: "1.0.0-alpha02",
+                    ],
             ],
             material  : "1.2.1",
             tensorflow: [

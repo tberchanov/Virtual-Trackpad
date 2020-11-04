@@ -18,13 +18,14 @@ import java.util.concurrent.atomic.AtomicInteger
 class ObjectDetectorAnalyzer(
     private val context: Context,
     private val config: Config,
-    private val onDetectionResult: (Result) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     companion object {
         private const val TAG = "ObjectDetectorAnalyzer"
         private val DEBUG = false
     }
+
+    lateinit var onDetectionResult: (Result) -> Unit
 
     private val iterationCounter = AtomicInteger(0)
 
@@ -139,7 +140,7 @@ class ObjectDetectorAnalyzer(
         val inputSize: Int,
         val isQuantized: Boolean,
         val modelFile: String,
-        val labelsFile: String,
+        val labelsFile: String? = null,
         val multipleDetectionsEnabled: Boolean
     )
 

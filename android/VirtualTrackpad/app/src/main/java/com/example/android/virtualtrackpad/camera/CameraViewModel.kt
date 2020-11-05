@@ -1,20 +1,21 @@
 package com.example.android.virtualtrackpad.camera
 
 import android.content.Context
-import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraViewModel @ViewModelInject constructor(
-    private val analyzer: ObjectDetectorAnalyzer
+    private val fetchCameraConfigsUseCase: FetchCameraConfigsUseCase
 ) : ViewModel() {
 
     val detectionResult = MutableLiveData<ObjectDetectorAnalyzer.Result>()
@@ -25,23 +26,17 @@ class CameraViewModel @ViewModelInject constructor(
 
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
-    fun getPreview(): Preview? {
-        // TODO can be null in case when preview is disabled from settings
-        return Preview.Builder()
-            .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-            .build()
-    }
-
-    fun getImageAnalysis() = ImageAnalysis.Builder()
-        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-        .build().apply {
-            setAnalyzer(
-                executor,
-                analyzer.also {
-                    it.onDetectionResult = ::onResultDetected
-                }
-            )
+    fun fetchCameraConfigs(): LiveData<CameraConfigs> {
+        val cameraConfigs = MutableLiveData<CameraConfigs>()
+        viewModelScope.launch(Dispatchers.IO) {
+            fetchCameraConfigsUseCase.execute(
+                FetchCameraConfigsUseCase.Params(executor, ::onResultDetected)
+            ).let {
+                cameraConfigs.postValue(it)
+            }
         }
+        return cameraConfigs
+    }
 
     private fun onResultDetected(result: ObjectDetectorAnalyzer.Result) {
         detectionResult.value = result

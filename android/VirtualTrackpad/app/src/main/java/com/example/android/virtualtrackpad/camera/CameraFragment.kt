@@ -6,6 +6,7 @@ import androidx.camera.core.UseCase
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.android.virtualtrackpad.R
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,23 +30,29 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
             },
             onFail = ::showSnackbar
         )
+
+        settings_button.setOnClickListener {
+            findNavController().navigate(R.id.action_camera_fragment_to_settings_fragment)
+        }
     }
 
     private fun bindCamera(cameraProvider: ProcessCameraProvider) {
 
         cameraProvider.unbindAll()
 
-        cameraProvider.bindToLifecycle(
-            viewLifecycleOwner,
-            viewModel.cameraSelector,
-            *getCameraUseCases().toTypedArray()
-        )
+        viewModel.fetchCameraConfigs().observe(viewLifecycleOwner) { configs ->
+            cameraProvider.bindToLifecycle(
+                viewLifecycleOwner,
+                viewModel.cameraSelector,
+                *getCameraUseCases(configs).toTypedArray()
+            )
+        }
     }
 
-    private fun getCameraUseCases() = mutableListOf<UseCase>(
-        viewModel.getImageAnalysis()
+    private fun getCameraUseCases(cameraConfigs: CameraConfigs) = mutableListOf<UseCase>(
+        cameraConfigs.imageAnalysis
     ).also {
-        val preview = viewModel.getPreview()
+        val preview = cameraConfigs.preview
         if (preview != null) {
             it.add(preview)
             preview.setSurfaceProvider(preview_view.surfaceProvider)

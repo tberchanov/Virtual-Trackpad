@@ -27,6 +27,7 @@ ext {
                             plugin   : "2.29.1-alpha",
                             viewmodel: "1.0.0-alpha02",
                     ],
+                    navigation      : "2.3.1",
             ],
             material  : "1.2.1",
             tensorflow: [

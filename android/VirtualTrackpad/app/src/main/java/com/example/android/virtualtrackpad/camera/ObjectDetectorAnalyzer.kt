@@ -9,6 +9,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
+import com.example.android.virtualtrackpad.core.DetectionConfigs
 import com.example.android.virtualtrackpad.detection.DetectionResult
 import com.example.android.virtualtrackpad.detection.ObjectDetector
 import com.example.android.virtualtrackpad.util.ImageUtil
@@ -17,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class ObjectDetectorAnalyzer(
     private val context: Context,
-    private val config: Config,
+    private val config: DetectionConfigs,
 ) : ImageAnalysis.Analyzer {
 
     companion object {
@@ -120,7 +121,6 @@ class ObjectDetectorAnalyzer(
                 assetManager = context.assets,
                 isModelQuantized = config.isQuantized,
                 inputSize = config.inputSize,
-//                    labelFilename = config.labelsFile,
                 modelFilename = config.modelFile,
                 numDetections = config.numDetection,
                 minimumConfidence = config.minimumConfidence,
@@ -133,16 +133,6 @@ class ObjectDetectorAnalyzer(
 
         return detector.detect(inputArray)
     }
-
-    data class Config(
-        val minimumConfidence: Float,
-        val numDetection: Int,
-        val inputSize: Int,
-        val isQuantized: Boolean,
-        val modelFile: String,
-        val labelsFile: String? = null,
-        val multipleDetectionsEnabled: Boolean
-    )
 
     data class Result(
         val objects: List<DetectionResult>,

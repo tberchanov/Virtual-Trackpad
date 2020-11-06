@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.detection
+package com.example.android.virtualtrackpad
 
 import android.graphics.RectF
 

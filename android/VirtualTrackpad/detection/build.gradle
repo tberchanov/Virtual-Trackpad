@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
+apply from: '../versions.gradle'
+
+android {
+    compileSdkVersion versions.sdk.compile
+    buildToolsVersion versions.build.tools
+
+    defaultConfig {
+        minSdkVersion versions.sdk.min
+        targetSdkVersion versions.sdk.target
+        versionCode versions.code
+        versionName versions.name
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(path: ':data_detection_configs')
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
+
+    // TF
+    implementation "org.tensorflow:tensorflow-lite:$versions.tensorflow.lite"
+    implementation "org.tensorflow:tensorflow-lite-gpu:$versions.tensorflow.gpu"
+}

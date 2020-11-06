@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation project(path: ':data_detection_configs')
     implementation project(path: ':settings')
+    implementation project(path: ':detection')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 
@@ -64,10 +65,6 @@ dependencies {
     implementation "androidx.camera:camera-camera2:$versions.androidx.camera.camera2"
     implementation "androidx.camera:camera-lifecycle:$versions.androidx.camera.lifecycle"
     implementation "androidx.camera:camera-view:$versions.androidx.camera.view"
-
-    // TF
-    implementation "org.tensorflow:tensorflow-lite:$versions.tensorflow.lite"
-    implementation "org.tensorflow:tensorflow-lite-gpu:$versions.tensorflow.gpu"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$versions.androidx.hilt.plugin"

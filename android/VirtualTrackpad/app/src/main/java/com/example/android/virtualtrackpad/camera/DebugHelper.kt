@@ -2,7 +2,6 @@ package com.example.android.virtualtrackpad.camera
 
 import android.content.Context
 import android.graphics.*
-import com.example.android.virtualtrackpad.detection.DetectionResult
 import com.example.android.virtualtrackpad.util.ImageUtil
 
 class DebugHelper(
@@ -23,7 +22,11 @@ class DebugHelper(
         strokeWidth = 2.0f
     }
 
-    fun saveResult(iteration: Int, resizedBitmap: Bitmap, result: List<DetectionResult>) {
+    fun saveResult(
+        iteration: Int,
+        resizedBitmap: Bitmap,
+        result: List<com.example.android.virtualtrackpad.DetectionResult>
+    ) {
         if (!saveResult) return
 
         Canvas(resultBitmap).let { canvas ->

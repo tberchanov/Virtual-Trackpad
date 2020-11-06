@@ -1,9 +1,8 @@
-package com.example.android.virtualtrackpad.detection
+package com.example.android.virtualtrackpad
 
 import android.content.res.AssetManager
 import android.graphics.RectF
 import android.util.Log
-import com.example.android.virtualtrackpad.util.DetectorUtils
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.gpu.CompatibilityList
 import org.tensorflow.lite.gpu.GpuDelegate

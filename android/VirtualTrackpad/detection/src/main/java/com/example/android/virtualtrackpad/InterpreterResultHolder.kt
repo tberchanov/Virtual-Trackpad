@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.detection
+package com.example.android.virtualtrackpad
 
 class InterpreterResultHolder(val detections: Int) {
 

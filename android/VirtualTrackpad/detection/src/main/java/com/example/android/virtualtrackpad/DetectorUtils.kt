@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.util
+package com.example.android.virtualtrackpad
 
 import android.content.res.AssetManager
 import java.io.FileInputStream

@@ -9,9 +9,8 @@ import android.os.Looper
 import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
+import com.example.android.virtualtrackpad.ObjectDetector
 import com.example.android.virtualtrackpad.core.DetectionConfigs
-import com.example.android.virtualtrackpad.detection.DetectionResult
-import com.example.android.virtualtrackpad.detection.ObjectDetector
 import com.example.android.virtualtrackpad.util.ImageUtil
 import com.example.android.virtualtrackpad.util.YuvToRgbConverter
 import java.util.concurrent.atomic.AtomicInteger
@@ -112,7 +111,7 @@ class ObjectDetectorAnalyzer(
         return bitmap
     }
 
-    private fun detect(inputArray: IntArray): List<DetectionResult> {
+    private fun detect(inputArray: IntArray): List<com.example.android.virtualtrackpad.DetectionResult> {
         var detector = objectDetector
         if (detector == null) {
             detector = ObjectDetector(
@@ -134,7 +133,7 @@ class ObjectDetectorAnalyzer(
     }
 
     data class Result(
-        val objects: List<DetectionResult>,
+        val objects: List<com.example.android.virtualtrackpad.DetectionResult>,
         val imageWidth: Int,
         val imageHeight: Int,
         val imageRotationDegrees: Int

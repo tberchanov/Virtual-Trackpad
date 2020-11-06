@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="minimum_confidence">Minimum confidence</string>
+    <string name="multiple_detections_enabled">Multiple detections</string>
+    <string name="preview_enabled">Preview</string>
+    <string name="draw_detections_enabled">Draw detections</string>
+    <string name="is_quantized">Is quantized</string>
+    <string name="nnapi_enabled">NNAPI</string>
+    <string name="gpu_enabled">GPU</string>
+    <string name="threads_quantity">Threads quantity</string>
+    <string name="save">Save</string>
+    <string name="invalid_settings_value">Invalid settings value</string>
+    <string name="ok">OK</string>
+</resources>

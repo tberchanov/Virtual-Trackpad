@@ -43,6 +43,9 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':data_detection_configs')
+    implementation project(path: ':settings')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 
     // Android
@@ -64,10 +67,10 @@ dependencies {
 
     // TF
     implementation "org.tensorflow:tensorflow-lite:$versions.tensorflow.lite"
+    implementation "org.tensorflow:tensorflow-lite-gpu:$versions.tensorflow.gpu"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$versions.androidx.hilt.plugin"
-    implementation project(path: ':data_detection_configs')
     kapt "com.google.dagger:hilt-android-compiler:$versions.androidx.hilt.plugin"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$versions.androidx.hilt.viewmodel"
     kapt "androidx.hilt:hilt-compiler:$versions.androidx.hilt.viewmodel"

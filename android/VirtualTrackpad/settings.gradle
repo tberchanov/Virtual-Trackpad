@@ -1,3 +1,4 @@
+include ':settings'
 include ':data_detection_configs'
 include ':core'
 include ':app'

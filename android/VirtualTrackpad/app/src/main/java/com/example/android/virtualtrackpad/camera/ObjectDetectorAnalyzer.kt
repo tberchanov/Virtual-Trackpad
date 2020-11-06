@@ -26,7 +26,7 @@ class ObjectDetectorAnalyzer(
         private val DEBUG = false
     }
 
-    lateinit var onDetectionResult: (Result) -> Unit
+    lateinit var onDetectionResult: (Result, drawDetections: Boolean) -> Unit
 
     private val iterationCounter = AtomicInteger(0)
 
@@ -83,10 +83,8 @@ class ObjectDetectorAnalyzer(
             imageRotationDegrees = rotationDegrees
         )
 
-
-
         uiHandler.post {
-            onDetectionResult.invoke(result)
+            onDetectionResult.invoke(result, config.drawDetectionsEnabled)
         }
     }
 
@@ -124,8 +122,9 @@ class ObjectDetectorAnalyzer(
                 modelFilename = config.modelFile,
                 numDetections = config.numDetection,
                 minimumConfidence = config.minimumConfidence,
-                numThreads = 4,
-                useNnapi = false,
+                numThreads = config.threadsQuantity,
+                useNnapi = config.nnapiEnabled,
+                useGPU = config.gpuEnabled,
                 multipleDetectionsEnabled = config.multipleDetectionsEnabled
             )
             objectDetector = detector

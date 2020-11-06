@@ -38,8 +38,10 @@ class CameraViewModel @ViewModelInject constructor(
         return cameraConfigs
     }
 
-    private fun onResultDetected(result: ObjectDetectorAnalyzer.Result) {
-        detectionResult.value = result
+    private fun onResultDetected(result: ObjectDetectorAnalyzer.Result, drawDetections: Boolean) {
+        if (drawDetections) {
+            detectionResult.value = result
+        }
     }
 
     fun getProcessCameraProvider(

@@ -3,6 +3,18 @@ package com.example.android.virtualtrackpad.core
 import android.content.Context
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.*
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_DRAW_DETECTIONS_ENABLED
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_GPU_ENABLED
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_INPUT_SIZE
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_IS_QUANTIZED
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_LABELS_FILE
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_MINIMUM_CONFIDENCE
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_MODEL_FILE
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_MULTIPLE_DETECTIONS_ENABLED
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_NNAPI_ENABLED
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_NUM_DETECTIONS
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_PREVIEW_ENABLED
+import com.example.android.virtualtrackpad.core.DetectionConfigs.Companion.DEFAULT_THREADS_QUANTITY
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -21,6 +33,10 @@ internal class DetectionConfigsRepositoryImpl(
     private val modelFileKey = preferencesKey<String>(MODEL_FILE_KEY)
     private val labelsFileKey = preferencesKey<String>(LABELS_FILE_KEY)
     private val previewEnabledKey = preferencesKey<Boolean>(PREVIEW_ENABLED_KEY)
+    private val drawDetectionsEnabledKey = preferencesKey<Boolean>(DRAW_DETECTIONS_ENABLED_KEY)
+    private val nnapiEnabledKey = preferencesKey<Boolean>(NNAPI_ENABLED_KEY)
+    private val gpuEnabledKey = preferencesKey<Boolean>(GPU_ENABLED_KEY)
+    private val threadsQuantityKey = preferencesKey<Int>(THREADS_QUANTITY_KEY)
     private val multipleDetectionsEnabledKey =
         preferencesKey<Boolean>(MULTIPLE_DETECTIONS_ENABLED_KEY)
 
@@ -36,7 +52,12 @@ internal class DetectionConfigsRepositoryImpl(
                     labelsFile = it[labelsFileKey] ?: DEFAULT_LABELS_FILE,
                     multipleDetectionsEnabled = it[multipleDetectionsEnabledKey]
                         ?: DEFAULT_MULTIPLE_DETECTIONS_ENABLED,
-                    previewEnabled = it[previewEnabledKey] ?: DEFAULT_PREVIEW_ENABLED
+                    previewEnabled = it[previewEnabledKey] ?: DEFAULT_PREVIEW_ENABLED,
+                    drawDetectionsEnabled = it[drawDetectionsEnabledKey]
+                        ?: DEFAULT_DRAW_DETECTIONS_ENABLED,
+                    nnapiEnabled = it[nnapiEnabledKey] ?: DEFAULT_NNAPI_ENABLED,
+                    gpuEnabled = it[gpuEnabledKey] ?: DEFAULT_GPU_ENABLED,
+                    threadsQuantity = it[threadsQuantityKey] ?: DEFAULT_THREADS_QUANTITY
                 )
             }.first()
     }
@@ -51,6 +72,11 @@ internal class DetectionConfigsRepositoryImpl(
                 modelFileKey to configs.modelFile,
                 labelsFileKey to configs.labelsFile,
                 multipleDetectionsEnabledKey to configs.multipleDetectionsEnabled,
+                previewEnabledKey to configs.previewEnabled,
+                drawDetectionsEnabledKey to configs.drawDetectionsEnabled,
+                nnapiEnabledKey to configs.nnapiEnabled,
+                gpuEnabledKey to configs.gpuEnabled,
+                threadsQuantityKey to configs.threadsQuantity,
             )
         }
     }
@@ -65,14 +91,9 @@ internal class DetectionConfigsRepositoryImpl(
         private const val LABELS_FILE_KEY = "LABELS_FILE_KEY"
         private const val MULTIPLE_DETECTIONS_ENABLED_KEY = "MULTIPLE_DETECTIONS_ENABLED_KEY"
         private const val PREVIEW_ENABLED_KEY = "PREVIEW_ENABLED_KEY"
-
-        private const val DEFAULT_MINIMUM_CONFIDENCE = 0.5f
-        private const val DEFAULT_NUM_DETECTIONS = 10
-        private const val DEFAULT_INPUT_SIZE = 320
-        private const val DEFAULT_IS_QUANTIZED = false
-        private const val DEFAULT_MODEL_FILE = "model.tflite"
-        private const val DEFAULT_LABELS_FILE = ""
-        private const val DEFAULT_MULTIPLE_DETECTIONS_ENABLED = false
-        private const val DEFAULT_PREVIEW_ENABLED = true
+        private const val DRAW_DETECTIONS_ENABLED_KEY = "DRAW_DETECTIONS_ENABLED_KEY"
+        private const val NNAPI_ENABLED_KEY = "NNAPI_ENABLED_KEY"
+        private const val GPU_ENABLED_KEY = "GPU_ENABLED_KEY"
+        private const val THREADS_QUANTITY_KEY = "THREADS_QUANTITY_KEY"
     }
 }

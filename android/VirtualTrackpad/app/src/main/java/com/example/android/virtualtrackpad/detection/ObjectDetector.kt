@@ -2,16 +2,20 @@ package com.example.android.virtualtrackpad.detection
 
 import android.content.res.AssetManager
 import android.graphics.RectF
+import android.util.Log
 import com.example.android.virtualtrackpad.util.DetectorUtils
 import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.gpu.CompatibilityList
+import org.tensorflow.lite.gpu.GpuDelegate
 import java.nio.ByteBuffer
 
 class ObjectDetector constructor(
     assetManager: AssetManager,
     modelFilename: String,
     labelFilename: String? = null,
-    useNnapi: Boolean = false,
-    numThreads: Int = DetectorUtils.NUM_THREADS,
+    private val useNnapi: Boolean = false,
+    private val useGPU: Boolean = false,
+    private val numThreads: Int = DetectorUtils.NUM_THREADS,
     private val minimumConfidence: Float,
     private val numDetections: Int,
     private val inputSize: Int = 0,
@@ -36,10 +40,29 @@ class ObjectDetector constructor(
 
         interpreter = Interpreter(
             DetectorUtils.loadModelFile(assetManager, modelFilename),
-            Interpreter.Options()
-                .setNumThreads(numThreads)
-                .setUseNNAPI(useNnapi)
+            getInterpreterOptions()
         )
+    }
+
+    private fun getInterpreterOptions(): Interpreter.Options {
+        val options = Interpreter.Options()
+            .setNumThreads(numThreads)
+            .setUseNNAPI(useNnapi)
+
+        val compatList = CompatibilityList()
+        if (compatList.isDelegateSupportedOnThisDevice && useGPU) {
+            options.addDelegate(createGpuDelegate())
+        } else if (useGPU) {
+            Log.e("ObjectDetector", "This device is not supporting GPU.")
+        }
+
+        return options
+    }
+
+    private fun createGpuDelegate(): GpuDelegate {
+        val compatList = CompatibilityList()
+        val delegateOptions = compatList.bestOptionsForThisDevice
+        return GpuDelegate(delegateOptions)
     }
 
     fun detect(pixels: IntArray): List<DetectionResult> {

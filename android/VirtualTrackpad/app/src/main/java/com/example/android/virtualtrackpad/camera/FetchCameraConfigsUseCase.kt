@@ -53,6 +53,6 @@ class FetchCameraConfigsUseCase @Inject constructor(
 
     data class Params(
         val executor: Executor,
-        val onResultDetected: (ObjectDetectorAnalyzer.Result) -> Unit
+        val onResultDetected: (ObjectDetectorAnalyzer.Result, drawDetections: Boolean) -> Unit
     )
 }

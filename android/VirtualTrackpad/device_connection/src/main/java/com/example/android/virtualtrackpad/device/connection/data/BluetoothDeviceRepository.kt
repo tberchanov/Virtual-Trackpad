@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.repository.device
+package com.example.android.virtualtrackpad.device.connection.data
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
@@ -6,7 +6,7 @@ import java.io.IOException
 import java.io.OutputStream
 import java.util.*
 
-class BluetoothDeviceRepository : DeviceRepository {
+internal class BluetoothDeviceRepository : DeviceRepository {
 
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
@@ -14,29 +14,13 @@ class BluetoothDeviceRepository : DeviceRepository {
 
     private var bluetoothOutputStream: OutputStream? = null
 
+    @Throws(IOException::class)
     override fun openConnection(address: String) {
-        try {
-            bluetoothSocket = bluetoothAdapter
-                ?.getRemoteDevice(address)
-                ?.createRfcommSocketToServiceRecord(BLUETOOTH_UUID)
-        } catch (e: IOException) {
-            // TODO exception should be delivered to the consumer
-            return
-        }
-
-        try {
-            bluetoothSocket?.connect()
-        } catch (e: IOException) {
-            // TODO exception should be delivered to the consumer
-            return
-        }
-
-        try {
-            bluetoothOutputStream = bluetoothSocket?.outputStream
-        } catch (e: IOException) {
-            // TODO exception should be delivered to the consumer
-            return
-        }
+        bluetoothSocket = bluetoothAdapter
+            ?.getRemoteDevice(address)
+            ?.createRfcommSocketToServiceRecord(BLUETOOTH_UUID)
+        bluetoothSocket?.connect()
+        bluetoothOutputStream = bluetoothSocket?.outputStream
     }
 
     override fun sendData(data: String) {

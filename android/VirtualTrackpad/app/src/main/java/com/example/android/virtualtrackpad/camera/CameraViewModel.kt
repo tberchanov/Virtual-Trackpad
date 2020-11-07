@@ -15,7 +15,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraViewModel @ViewModelInject constructor(
-    private val fetchCameraConfigsUseCase: FetchCameraConfigsUseCase
+    private val fetchCameraConfigsUseCase: FetchCameraConfigsUseCase,
+    private val cameraPermissionsResolver: CameraPermissionsResolver
 ) : ViewModel() {
 
     val detectionResult = MutableLiveData<ObjectDetectorAnalyzer.Result>()
@@ -25,6 +26,26 @@ class CameraViewModel @ViewModelInject constructor(
         .build()
 
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
+
+    fun resolveCameraPermissions(
+        onSuccess: () -> Unit,
+        onFail: (message: String) -> Unit
+    ) {
+        cameraPermissionsResolver.checkAndRequestPermissionsIfNeeded(
+            onSuccess, onFail
+        )
+    }
+
+    fun getProcessCameraProvider(
+        context: Context,
+        onDone: (ProcessCameraProvider) -> Unit
+    ) {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        cameraProviderFuture.addListener(
+            { onDone.invoke(cameraProviderFuture.get()) },
+            ContextCompat.getMainExecutor(context)
+        )
+    }
 
     fun fetchCameraConfigs(): LiveData<CameraConfigs> {
         val cameraConfigs = MutableLiveData<CameraConfigs>()
@@ -42,17 +63,6 @@ class CameraViewModel @ViewModelInject constructor(
         if (drawDetections) {
             detectionResult.value = result
         }
-    }
-
-    fun getProcessCameraProvider(
-        context: Context,
-        onDone: (ProcessCameraProvider) -> Unit
-    ) {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-        cameraProviderFuture.addListener(
-            { onDone.invoke(cameraProviderFuture.get()) },
-            ContextCompat.getMainExecutor(context)
-        )
     }
 
     override fun onCleared() {

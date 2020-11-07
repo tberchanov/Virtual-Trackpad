@@ -17,14 +17,12 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
     private val viewModel: CameraViewModel by viewModels()
 
-    private val cameraPermissionsResolver by lazy { CameraPermissionsResolver(requireActivity()) }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.detectionResult.observe(viewLifecycleOwner, result_overlay::updateResults)
 
-        cameraPermissionsResolver.checkAndRequestPermissionsIfNeeded(
+        viewModel.resolveCameraPermissions(
             onSuccess = {
                 viewModel.getProcessCameraProvider(requireContext(), ::bindCamera)
             },

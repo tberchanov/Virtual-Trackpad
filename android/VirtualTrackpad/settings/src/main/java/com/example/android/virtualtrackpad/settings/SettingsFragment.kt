@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.android.virtualtrackpad.settings.adapter.ConfigItemsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -26,7 +27,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
 
         save_settings_button.setOnClickListener {
-            viewModel.saveConfigItems(adapter.configItems)
+            viewModel.saveConfigItems(adapter.configs)
                 .observe(viewLifecycleOwner) {
                     if (it.isFailure) {
                         AlertDialog.Builder(requireContext())

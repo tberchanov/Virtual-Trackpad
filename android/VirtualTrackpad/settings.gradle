@@ -1,3 +1,4 @@
+include ':device_connection'
 include ':detection'
 include ':settings'
 include ':data_detection_configs'

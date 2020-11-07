@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.settings
+package com.example.android.virtualtrackpad.settings.adapter
 
 import android.view.View
 import androidx.core.widget.addTextChangedListener

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/camera_fragment">
+    app:startDestination="@id/bluetooth_fragment">
 
     <fragment
         android:id="@+id/camera_fragment"
@@ -20,5 +20,10 @@
         android:id="@+id/settings_fragment"
         android:name="com.example.android.virtualtrackpad.settings.SettingsFragment"
         android:label="Settings" />
+
+    <fragment
+        android:id="@+id/bluetooth_fragment"
+        android:name="com.example.android.virtualtrackpad.device.connection.DeviceConnectionFragment"
+        android:label="Bluetooth" />
 
 </navigation>

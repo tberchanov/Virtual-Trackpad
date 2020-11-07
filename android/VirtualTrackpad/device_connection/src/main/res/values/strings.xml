@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connection_title">Select device for connection</string>
+    <string name="connection_error_title">Connection failure</string>
+    <string name="connection_error_message">Please, try to retry</string>
+    <string name="ok">OK</string>
+</resources>

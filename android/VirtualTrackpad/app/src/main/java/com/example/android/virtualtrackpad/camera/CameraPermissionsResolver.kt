@@ -2,12 +2,13 @@ package com.example.android.virtualtrackpad.camera
 
 import android.Manifest
 import android.content.pm.PackageManager
-import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentActivity
+import javax.inject.Inject
 
-class CameraPermissionsResolver(
-    private val activity: ComponentActivity
+class CameraPermissionsResolver @Inject constructor(
+    private val activity: FragmentActivity
 ) {
     private var onSuccessHandler: (() -> Unit)? = null
     private var onFailHandler: ((message: String) -> Unit)? = null

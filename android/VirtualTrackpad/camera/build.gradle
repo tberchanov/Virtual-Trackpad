@@ -36,6 +36,7 @@ android {
 dependencies {
     implementation project(path: ':data_detection_configs')
     implementation project(path: ':detection')
+    implementation project(path: ':data_device_connection')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"

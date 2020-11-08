@@ -3,9 +3,11 @@ fun main() {
 
     deviceRepository.waitForConnection()
 
-    val receivedData = deviceRepository.readData()
+    while (true) {
+        val receivedData = deviceRepository.readData()
 
-    println("Received bluetooth data: $receivedData")
+        println("Received bluetooth data: $receivedData")
+    }
 
     deviceRepository.closeConnection()
 }

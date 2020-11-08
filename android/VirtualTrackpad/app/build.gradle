@@ -47,6 +47,7 @@ dependencies {
     implementation project(path: ':settings')
     implementation project(path: ':detection')
     implementation project(path: ':device_connection')
+    implementation project(path: ':data_device_connection')
     implementation project(path: ':camera')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"

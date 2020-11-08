@@ -5,7 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.virtualtrackpad.device.connection.data.DeviceRepository
+import com.example.android.virtualtrackpad.data.device.connection.DeviceRepository
 import com.example.android.virtualtrackpad.device.connection.model.BluetoothStatus
 import com.example.android.virtualtrackpad.device.connection.model.ConnectionStatus
 import com.example.android.virtualtrackpad.device.connection.model.ConnectionStatus.Error

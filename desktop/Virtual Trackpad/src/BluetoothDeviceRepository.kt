@@ -18,6 +18,8 @@ class BluetoothDeviceRepository : DeviceRepository {
 
     private var deviceInputStream: InputStream? = null
 
+    private val inputBuffer = ByteArray(DEFAULT_INPUT_BUFFER_SIZE)
+
     override fun waitForConnection() {
         val streamConnNotifier = Connector.open(connectionString) as StreamConnectionNotifier
         streamConnection = streamConnNotifier.acceptAndOpen()
@@ -25,9 +27,8 @@ class BluetoothDeviceRepository : DeviceRepository {
     }
 
     override fun readData(): String {
-        return deviceInputStream?.readBytes()?.let { bytes ->
-            String(bytes)
-        } ?: throw IllegalStateException("Null bytes can no be read")
+        deviceInputStream?.read(inputBuffer)
+        return String(inputBuffer)
     }
 
     override fun closeConnection() {
@@ -39,6 +40,8 @@ class BluetoothDeviceRepository : DeviceRepository {
     }
 
     companion object {
+
+        private const val DEFAULT_INPUT_BUFFER_SIZE = 80
 
         private const val connectionName = "Virtual Trackpad Server"
 

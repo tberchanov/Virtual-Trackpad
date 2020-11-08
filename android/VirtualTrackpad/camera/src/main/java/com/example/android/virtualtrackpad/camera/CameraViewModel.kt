@@ -1,6 +1,7 @@
 package com.example.android.virtualtrackpad.camera
 
 import android.content.Context
+import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import java.util.concurrent.Executors
 
 internal class CameraViewModel @ViewModelInject constructor(
     private val fetchCameraConfigsUseCase: FetchCameraConfigsUseCase,
+    private val sendDetectionsUseCase: SendDetectionsUseCase,
 ) : ViewModel() {
 
     val detectionResult = MutableLiveData<ObjectDetectorAnalyzer.Result>()
@@ -53,6 +55,17 @@ internal class CameraViewModel @ViewModelInject constructor(
     private fun onResultDetected(result: ObjectDetectorAnalyzer.Result, drawDetections: Boolean) {
         if (drawDetections) {
             detectionResult.value = result
+        }
+        // TODO probably would be faster to use Channel|Flow instead of creation each time coroutine
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                if (result.objects.isNotEmpty()) {
+                    sendDetectionsUseCase.execute(result.objects)
+                }
+            } catch (e: Exception) {
+                // TODO need to process cases in progress of sending data when Bluetooth became disabled, or Bluetooth connection corrupted
+                Log.e("CameraViewModel", "Send data failure", e)
+            }
         }
     }
 

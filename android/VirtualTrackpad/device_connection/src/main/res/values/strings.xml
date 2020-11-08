@@ -4,4 +4,6 @@
     <string name="connection_error_title">Connection failure</string>
     <string name="connection_error_message">Please, try to retry</string>
     <string name="ok">OK</string>
+    <string name="turn_on_bluetooth">Please, turn on Bluetooth</string>
+    <string name="turn_on">Turn on</string>
 </resources>

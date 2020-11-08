@@ -26,6 +26,9 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
         super.onViewCreated(view, savedInstanceState)
 
         devices_recycler.adapter = devicesAdapter
+        turn_on_button.setOnClickListener {
+            viewModel.checkBluetoothAvailability()
+        }
 
         with(viewModel) {
             checkBluetoothAvailability()
@@ -50,8 +53,11 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
 
     private fun handleBluetoothStatus(bluetoothStatus: BluetoothStatus) {
         when (bluetoothStatus) {
-            BluetoothStatus.Enabled -> viewModel.loadDevices()
-            BluetoothStatus.Disabled -> TODO("show placeholder with button to restart bluetooth request")
+            BluetoothStatus.Enabled -> {
+                setTurnOnBluetoothMessageVisibility(false)
+                viewModel.loadDevices()
+            }
+            BluetoothStatus.Disabled -> setTurnOnBluetoothMessageVisibility(true)
         }
     }
 
@@ -61,5 +67,11 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
             .setMessage(R.string.connection_error_message)
             .setPositiveButton(R.string.ok, null)
             .show()
+    }
+
+    private fun setTurnOnBluetoothMessageVisibility(visible: Boolean) {
+        val visibility = if (visible) View.VISIBLE else View.GONE
+        turn_on_label.visibility = visibility
+        turn_on_button.visibility = visibility
     }
 }

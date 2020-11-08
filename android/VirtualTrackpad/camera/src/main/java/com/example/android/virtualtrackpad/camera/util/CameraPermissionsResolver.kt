@@ -15,7 +15,7 @@ internal class CameraPermissionsResolver @Inject constructor(
     private var onSuccessHandler: (() -> Unit)? = null
     private var onFailHandler: ((message: String) -> Unit)? = null
 
-    private val requestCameraPermissionLauncher =
+    private val requestCameraPermissionLauncher by lazy {
         activity.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             val isCameraPermissionGranted = result[Manifest.permission.CAMERA] ?: false
 
@@ -25,6 +25,7 @@ internal class CameraPermissionsResolver @Inject constructor(
                 onFailHandler?.invoke("Camera permission required")
             }
         }
+    }
 
     fun checkAndRequestPermissionsIfNeeded(
         onSuccess: () -> Unit,

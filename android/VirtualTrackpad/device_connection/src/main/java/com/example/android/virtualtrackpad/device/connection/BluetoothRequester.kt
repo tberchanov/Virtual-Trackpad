@@ -19,7 +19,7 @@ internal class BluetoothRequester @Inject constructor(
 
     private val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
-    private val requestBluetoothLauncher =
+    private val requestBluetoothLauncher by lazy {
         activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val isBluetoothEnabled = result.resultCode == Activity.RESULT_OK
 
@@ -29,6 +29,7 @@ internal class BluetoothRequester @Inject constructor(
                 onFailHandler?.invoke()
             }
         }
+    }
 
     fun requestBluetooth(
         onSuccess: () -> Unit,

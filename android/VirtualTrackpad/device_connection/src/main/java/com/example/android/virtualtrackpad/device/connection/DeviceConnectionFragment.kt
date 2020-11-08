@@ -3,6 +3,7 @@ package com.example.android.virtualtrackpad.device.connection
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.android.virtualtrackpad.device.connection.adapter.DevicesAdapter
@@ -10,6 +11,7 @@ import com.example.android.virtualtrackpad.device.connection.model.BluetoothStat
 import com.example.android.virtualtrackpad.device.connection.model.BluetoothStatus.Disabled
 import com.example.android.virtualtrackpad.device.connection.model.BluetoothStatus.Enabled
 import com.example.android.virtualtrackpad.device.connection.model.ConnectionStatus
+import com.example.android.virtualtrackpad.device.connection.model.Device
 import com.example.android.virtualtrackpad.device.connection.navigation.DeviceConnectionNavigation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_device_connection.*
@@ -28,7 +30,7 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
 
     private val devicesAdapter by lazy {
         DevicesAdapter(
-            onDeviceSelected = viewModel::connectToDevice
+            onDeviceSelected = ::onDeviceSelected
         )
     }
 
@@ -65,7 +67,10 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
     private fun handleConnectionStatus(connectionStatus: ConnectionStatus) {
         when (connectionStatus) {
             ConnectionStatus.Success -> navigation.navigateToCamera()
-            ConnectionStatus.Error -> showConnectionDialog()
+            is ConnectionStatus.Error -> {
+                devicesAdapter.hideItemProgress(connectionStatus.device)
+                showConnectionFailureDialog()
+            }
         }
     }
 
@@ -79,7 +84,7 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
         }
     }
 
-    private fun showConnectionDialog() {
+    private fun showConnectionFailureDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.connection_error_title)
             .setMessage(R.string.connection_error_message)
@@ -88,8 +93,12 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
     }
 
     private fun setTurnOnBluetoothMessageVisibility(visible: Boolean) {
-        val visibility = if (visible) View.VISIBLE else View.GONE
-        turn_on_label.visibility = visibility
-        turn_on_button.visibility = visibility
+        turn_on_label.isVisible = visible
+        turn_on_button.isVisible = visible
+    }
+
+    private fun onDeviceSelected(device: Device) {
+        devicesAdapter.showItemProgress(device)
+        viewModel.connectToDevice(device)
     }
 }

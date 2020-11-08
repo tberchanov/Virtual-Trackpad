@@ -1,6 +1,6 @@
 package com.example.android.virtualtrackpad.device.connection.model
 
-sealed class ConnectionStatus {
+internal sealed class ConnectionStatus {
     object Success : ConnectionStatus()
-    object Error : ConnectionStatus()
+    class Error(val device: Device) : ConnectionStatus()
 }

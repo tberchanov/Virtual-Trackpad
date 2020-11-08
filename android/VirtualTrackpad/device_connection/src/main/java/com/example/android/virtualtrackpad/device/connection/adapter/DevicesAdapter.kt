@@ -28,5 +28,36 @@ internal class DevicesAdapter(
         holder.bind(devices[position])
     }
 
+    override fun onBindViewHolder(
+        holder: DeviceViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        super.onBindViewHolder(holder, position, payloads)
+        holder.bind(devices[position])
+        holder.setProgressVisibility(payloads.contains(PAYLOAD_DEVICE_LOADING))
+    }
+
     override fun getItemCount() = devices.size
+
+    fun showItemProgress(device: Device) {
+        setPayloadToDeviceItem(device, PAYLOAD_DEVICE_LOADING)
+    }
+
+    fun hideItemProgress(device: Device) {
+        setPayloadToDeviceItem(device, PAYLOAD_DEVICE_NOT_LOADING)
+    }
+
+    private fun setPayloadToDeviceItem(device: Device, payload: Any) {
+        devices.indexOf(device)
+            .takeIf { it != -1 }
+            ?.let { index ->
+                notifyItemChanged(index, payload)
+            }
+    }
+
+    companion object {
+        private const val PAYLOAD_DEVICE_LOADING = 1
+        private const val PAYLOAD_DEVICE_NOT_LOADING = 2
+    }
 }

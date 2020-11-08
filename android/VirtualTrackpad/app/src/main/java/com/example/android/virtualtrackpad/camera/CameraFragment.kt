@@ -11,18 +11,22 @@ import com.example.android.virtualtrackpad.R
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_camera.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CameraFragment : Fragment(R.layout.fragment_camera) {
 
     private val viewModel: CameraViewModel by viewModels()
 
+    @Inject
+    lateinit var cameraPermissionsResolver: CameraPermissionsResolver
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.detectionResult.observe(viewLifecycleOwner, result_overlay::updateResults)
 
-        viewModel.resolveCameraPermissions(
+        cameraPermissionsResolver.checkAndRequestPermissionsIfNeeded(
             onSuccess = {
                 viewModel.getProcessCameraProvider(requireContext(), ::bindCamera)
             },

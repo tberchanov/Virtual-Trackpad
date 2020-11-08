@@ -5,8 +5,10 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
+import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
+@ActivityScoped
 class BluetoothRequester @Inject constructor(
     activity: FragmentActivity
 ) {

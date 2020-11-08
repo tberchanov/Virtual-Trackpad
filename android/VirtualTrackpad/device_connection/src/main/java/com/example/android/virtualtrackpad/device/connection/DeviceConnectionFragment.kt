@@ -7,14 +7,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.android.virtualtrackpad.device.connection.adapter.DevicesAdapter
 import com.example.android.virtualtrackpad.device.connection.model.BluetoothStatus
+import com.example.android.virtualtrackpad.device.connection.model.BluetoothStatus.Disabled
+import com.example.android.virtualtrackpad.device.connection.model.BluetoothStatus.Enabled
 import com.example.android.virtualtrackpad.device.connection.model.ConnectionStatus
+import com.example.android.virtualtrackpad.device.connection.navigation.DeviceConnectionNavigation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_device_connection.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
 
     private val viewModel: DeviceConnectionViewModel by viewModels()
+
+    @Inject
+    lateinit var navigation: DeviceConnectionNavigation
+
+    @Inject
+    lateinit var bluetoothRequester: BluetoothRequester
 
     private val devicesAdapter by lazy {
         DevicesAdapter(
@@ -27,11 +37,12 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
 
         devices_recycler.adapter = devicesAdapter
         turn_on_button.setOnClickListener {
-            viewModel.checkBluetoothAvailability()
+            checkBluetoothAvailability()
         }
 
+        checkBluetoothAvailability()
+
         with(viewModel) {
-            checkBluetoothAvailability()
             bluetoothStatus.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()
                     ?.let(::handleBluetoothStatus)
@@ -44,20 +55,27 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
         }
     }
 
+    private fun checkBluetoothAvailability() {
+        bluetoothRequester.requestBluetooth(
+            { handleBluetoothStatus(Enabled) },
+            { handleBluetoothStatus(Disabled) }
+        )
+    }
+
     private fun handleConnectionStatus(connectionStatus: ConnectionStatus) {
         when (connectionStatus) {
-            ConnectionStatus.Success -> TODO("navigate to camera screen")
+            ConnectionStatus.Success -> navigation.navigateToCamera()
             ConnectionStatus.Error -> showConnectionDialog()
         }
     }
 
     private fun handleBluetoothStatus(bluetoothStatus: BluetoothStatus) {
         when (bluetoothStatus) {
-            BluetoothStatus.Enabled -> {
+            Enabled -> {
                 setTurnOnBluetoothMessageVisibility(false)
                 viewModel.loadDevices()
             }
-            BluetoothStatus.Disabled -> setTurnOnBluetoothMessageVisibility(true)
+            Disabled -> setTurnOnBluetoothMessageVisibility(true)
         }
     }
 

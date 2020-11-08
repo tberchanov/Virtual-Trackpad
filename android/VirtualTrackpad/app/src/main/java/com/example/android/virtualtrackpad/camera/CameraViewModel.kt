@@ -16,7 +16,6 @@ import java.util.concurrent.Executors
 
 class CameraViewModel @ViewModelInject constructor(
     private val fetchCameraConfigsUseCase: FetchCameraConfigsUseCase,
-    private val cameraPermissionsResolver: CameraPermissionsResolver
 ) : ViewModel() {
 
     val detectionResult = MutableLiveData<ObjectDetectorAnalyzer.Result>()
@@ -26,15 +25,6 @@ class CameraViewModel @ViewModelInject constructor(
         .build()
 
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
-
-    fun resolveCameraPermissions(
-        onSuccess: () -> Unit,
-        onFail: (message: String) -> Unit
-    ) {
-        cameraPermissionsResolver.checkAndRequestPermissionsIfNeeded(
-            onSuccess, onFail
-        )
-    }
 
     fun getProcessCameraProvider(
         context: Context,

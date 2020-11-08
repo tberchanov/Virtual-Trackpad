@@ -38,7 +38,7 @@ android {
     }
 
     // TODO workaround for issue https://stackoverflow.com/questions/64372383/ndk-at-library-android-sdk-ndk-bundle-did-not-have-a-source-properties-file
-    // probably should be removed in the futher updates
+    // probably should be removed in the further updates
     ndkVersion '21.3.6528147'
 }
 

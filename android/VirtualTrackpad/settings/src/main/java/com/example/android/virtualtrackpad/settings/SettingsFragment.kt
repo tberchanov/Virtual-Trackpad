@@ -5,13 +5,17 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.android.virtualtrackpad.settings.adapter.ConfigItemsAdapter
+import com.example.android.virtualtrackpad.settings.navigation.SettingsNavigation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
+
+    @Inject
+    lateinit var navigation: SettingsNavigation
 
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -35,7 +39,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                             .setPositiveButton(R.string.ok, null)
                             .show()
                     } else {
-                        findNavController().popBackStack()
+                        navigation.back()
                     }
                 }
         }

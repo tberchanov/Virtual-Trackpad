@@ -1,8 +1,6 @@
-package com.example.android.virtualtrackpad.di
+package com.example.android.virtualtrackpad.camera.di
 
 import android.content.Context
-import com.example.android.virtualtrackpad.detection.DetectionAnalyzerFactory
-import com.example.android.virtualtrackpad.detection.DetectionAnalyzerFactoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

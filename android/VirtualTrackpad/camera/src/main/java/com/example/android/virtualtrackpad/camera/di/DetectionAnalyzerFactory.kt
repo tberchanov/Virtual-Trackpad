@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.detection
+package com.example.android.virtualtrackpad.camera.di
 
 import com.example.android.virtualtrackpad.camera.ObjectDetectorAnalyzer
 import com.example.android.virtualtrackpad.core.DetectionConfigs

@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.camera
+package com.example.android.virtualtrackpad.camera.util
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -9,7 +9,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @ActivityScoped
-class CameraPermissionsResolver @Inject constructor(
+internal class CameraPermissionsResolver @Inject constructor(
     private val activity: FragmentActivity
 ) {
     private var onSuccessHandler: (() -> Unit)? = null

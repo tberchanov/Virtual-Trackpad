@@ -10,9 +10,10 @@ import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.example.android.virtualtrackpad.ObjectDetector
+import com.example.android.virtualtrackpad.camera.util.DebugHelper
+import com.example.android.virtualtrackpad.camera.util.ImageUtil
+import com.example.android.virtualtrackpad.camera.util.YuvToRgbConverter
 import com.example.android.virtualtrackpad.core.DetectionConfigs
-import com.example.android.virtualtrackpad.util.ImageUtil
-import com.example.android.virtualtrackpad.util.YuvToRgbConverter
 import java.util.concurrent.atomic.AtomicInteger
 
 class ObjectDetectorAnalyzer(

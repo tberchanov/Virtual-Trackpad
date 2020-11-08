@@ -9,7 +9,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @ActivityScoped
-class BluetoothRequester @Inject constructor(
+internal class BluetoothRequester @Inject constructor(
     activity: FragmentActivity
 ) {
 

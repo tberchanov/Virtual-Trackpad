@@ -6,8 +6,9 @@ import androidx.camera.core.UseCase
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.example.android.virtualtrackpad.R
+import com.example.android.virtualtrackpad.camera.model.CameraConfigs
+import com.example.android.virtualtrackpad.camera.navigation.CameraNavigation
+import com.example.android.virtualtrackpad.camera.util.CameraPermissionsResolver
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_camera.*
@@ -16,10 +17,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CameraFragment : Fragment(R.layout.fragment_camera) {
 
-    private val viewModel: CameraViewModel by viewModels()
+    @Inject
+    internal lateinit var cameraPermissionsResolver: CameraPermissionsResolver
 
     @Inject
-    lateinit var cameraPermissionsResolver: CameraPermissionsResolver
+    lateinit var navigation: CameraNavigation
+
+    private val viewModel: CameraViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,7 +38,7 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
         )
 
         settings_button.setOnClickListener {
-            findNavController().navigate(R.id.action_camera_fragment_to_settings_fragment)
+            navigation.navigateToSettings()
         }
     }
 

@@ -9,12 +9,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.virtualtrackpad.camera.model.CameraConfigs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraViewModel @ViewModelInject constructor(
+internal class CameraViewModel @ViewModelInject constructor(
     private val fetchCameraConfigsUseCase: FetchCameraConfigsUseCase,
 ) : ViewModel() {
 

@@ -24,7 +24,7 @@ class DeviceConnectionFragment : Fragment(R.layout.fragment_device_connection) {
     lateinit var navigation: DeviceConnectionNavigation
 
     @Inject
-    lateinit var bluetoothRequester: BluetoothRequester
+    internal lateinit var bluetoothRequester: BluetoothRequester
 
     private val devicesAdapter by lazy {
         DevicesAdapter(

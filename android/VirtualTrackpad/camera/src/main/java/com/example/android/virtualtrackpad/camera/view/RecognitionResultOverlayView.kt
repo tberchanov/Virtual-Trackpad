@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.util.view
+package com.example.android.virtualtrackpad.camera.view
 
 import android.content.Context
 import android.graphics.Canvas

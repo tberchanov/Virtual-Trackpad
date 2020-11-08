@@ -9,12 +9,12 @@ import com.example.android.virtualtrackpad.settings.model.ConfigItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SettingsViewModel @ViewModelInject constructor(
+internal class SettingsViewModel @ViewModelInject constructor(
     private val loadConfigItemsUseCase: LoadConfigItemsUseCase,
     private val saveConfigItemsUseCase: SaveConfigItemsUseCase,
 ) : ViewModel() {
 
-    internal fun loadConfigItems(): LiveData<List<ConfigItem>> {
+    fun loadConfigItems(): LiveData<List<ConfigItem>> {
         val configItems = MutableLiveData<List<ConfigItem>>()
         viewModelScope.launch(Dispatchers.IO) {
             loadConfigItemsUseCase.execute()
@@ -23,7 +23,7 @@ class SettingsViewModel @ViewModelInject constructor(
         return configItems
     }
 
-    internal fun saveConfigItems(configItems: List<ConfigItem>): LiveData<Result<Unit>> {
+    fun saveConfigItems(configItems: List<ConfigItem>): LiveData<Result<Unit>> {
         val result = MutableLiveData<Result<Unit>>()
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {

@@ -1,3 +1,4 @@
+include ':camera'
 include ':device_connection'
 include ':detection'
 include ':settings'

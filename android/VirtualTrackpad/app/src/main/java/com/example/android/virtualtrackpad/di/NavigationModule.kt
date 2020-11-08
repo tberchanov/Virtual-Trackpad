@@ -1,7 +1,9 @@
 package com.example.android.virtualtrackpad.di
 
 import androidx.fragment.app.FragmentActivity
+import com.example.android.virtualtrackpad.camera.navigation.CameraNavigation
 import com.example.android.virtualtrackpad.device.connection.navigation.DeviceConnectionNavigation
+import com.example.android.virtualtrackpad.navigation.CameraNavigationImpl
 import com.example.android.virtualtrackpad.navigation.DeviceConnectionNavigationImpl
 import com.example.android.virtualtrackpad.navigation.SettingsNavigationImpl
 import com.example.android.virtualtrackpad.settings.navigation.SettingsNavigation
@@ -23,4 +25,9 @@ class NavigationModule {
     fun provideSettingsNavigation(
         fragmentActivity: FragmentActivity
     ): SettingsNavigation = SettingsNavigationImpl(fragmentActivity)
+
+    @Provides
+    fun provideCameraNavigation(
+        fragmentActivity: FragmentActivity
+    ): CameraNavigation = CameraNavigationImpl(fragmentActivity)
 }

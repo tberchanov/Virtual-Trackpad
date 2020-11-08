@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.util
+package com.example.android.virtualtrackpad.camera.util
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -7,7 +7,7 @@ import androidx.camera.core.ImageProxy
 import java.io.File
 import kotlin.math.abs
 
-object ImageUtil {
+internal object ImageUtil {
 
     // This value is 2 ^ 18 - 1, and is used to clamp the RGB values before their ranges
     // are normalized to eight bits.

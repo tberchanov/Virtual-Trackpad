@@ -1,10 +1,9 @@
-package com.example.android.virtualtrackpad.camera
+package com.example.android.virtualtrackpad.camera.util
 
 import android.content.Context
 import android.graphics.*
-import com.example.android.virtualtrackpad.util.ImageUtil
 
-class DebugHelper(
+internal class DebugHelper(
     private val saveResult: Boolean,
     resultHeight: Int,
     resultWidth: Int,

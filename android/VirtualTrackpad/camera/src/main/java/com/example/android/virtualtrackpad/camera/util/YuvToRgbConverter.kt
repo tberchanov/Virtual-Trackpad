@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.util
+package com.example.android.virtualtrackpad.camera.util
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -9,7 +9,7 @@ import androidx.camera.core.ImageProxy
 import com.example.android.virtualtrackpad.BuildConfig
 import java.nio.ByteBuffer
 
-class YuvToRgbConverter(context: Context) {
+internal class YuvToRgbConverter(context: Context) {
     private val rs = RenderScript.create(context)
     private val scriptYuvToRgb = ScriptIntrinsicYuvToRGB.create(rs, Element.U8_4(rs))
 

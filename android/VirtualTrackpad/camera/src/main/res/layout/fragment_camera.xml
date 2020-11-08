@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.example.android.virtualtrackpad.util.view.RecognitionResultOverlayView
+        <com.example.android.virtualtrackpad.camera.view.RecognitionResultOverlayView
             android:id="@+id/result_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

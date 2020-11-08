@@ -11,22 +11,22 @@ import com.example.android.virtualtrackpad.device.connection.model.ConnectionSta
 import com.example.android.virtualtrackpad.device.connection.model.Device
 import com.example.android.virtualtrackpad.device.connection.model.Event
 
-class DeviceConnectionViewModel @ViewModelInject constructor(
+internal class DeviceConnectionViewModel @ViewModelInject constructor(
     private val getDevicesUseCase: GetDevicesUseCase,
     private val deviceRepository: DeviceRepository,
 ) : ViewModel() {
 
-    internal val connectionStatus = MutableLiveData<Event<ConnectionStatus>>()
+    val connectionStatus = MutableLiveData<Event<ConnectionStatus>>()
 
-    internal val bluetoothStatus = MutableLiveData<Event<BluetoothStatus>>()
+    val bluetoothStatus = MutableLiveData<Event<BluetoothStatus>>()
 
-    internal val devices = MutableLiveData<List<Device>>()
+    val devices = MutableLiveData<List<Device>>()
 
-    internal fun loadDevices() {
+    fun loadDevices() {
         devices.value = getDevicesUseCase.execute()
     }
 
-    internal fun connectToDevice(device: Device) {
+    fun connectToDevice(device: Device) {
         runCatching {
             deviceRepository.openConnection(device.address)
         }.fold(

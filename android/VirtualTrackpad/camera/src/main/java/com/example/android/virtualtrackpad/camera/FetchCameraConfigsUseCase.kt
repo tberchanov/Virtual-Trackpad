@@ -3,9 +3,10 @@ package com.example.android.virtualtrackpad.camera
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
+import com.example.android.virtualtrackpad.camera.di.DetectionAnalyzerFactory
+import com.example.android.virtualtrackpad.camera.model.CameraConfigs
 import com.example.android.virtualtrackpad.core.DetectionConfigs
 import com.example.android.virtualtrackpad.core.DetectionConfigsRepository
-import com.example.android.virtualtrackpad.detection.DetectionAnalyzerFactory
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -14,7 +15,7 @@ class FetchCameraConfigsUseCase @Inject constructor(
     private val detectionAnalyzerFactory: DetectionAnalyzerFactory
 ) {
 
-    suspend fun execute(params: Params): CameraConfigs {
+    internal suspend fun execute(params: Params): CameraConfigs {
         val detectionConfigs = detectionConfigsRepository.getConfigs()
 
         return CameraConfigs(
@@ -51,7 +52,7 @@ class FetchCameraConfigsUseCase @Inject constructor(
         }
     }
 
-    data class Params(
+    internal data class Params(
         val executor: Executor,
         val onResultDetected: (ObjectDetectorAnalyzer.Result, drawDetections: Boolean) -> Unit
     )

@@ -1,3 +1,5 @@
+package data
+
 interface DeviceRepository {
 
     fun waitForConnection()

@@ -1,3 +1,5 @@
+package data
+
 fun main() {
     val deviceRepository: DeviceRepository = BluetoothDeviceRepository()
 

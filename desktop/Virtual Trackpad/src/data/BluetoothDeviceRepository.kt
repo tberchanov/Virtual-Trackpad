@@ -1,3 +1,5 @@
+package data
+
 import java.io.InputStream
 import javax.bluetooth.UUID
 import javax.microedition.io.Connector

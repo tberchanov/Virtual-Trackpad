@@ -2,29 +2,33 @@ package com.example.android.virtualtrackpad.camera.util
 
 import android.Manifest
 import android.content.pm.PackageManager
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @ActivityScoped
-internal class CameraPermissionsResolver @Inject constructor(
+class CameraPermissionsResolver @Inject constructor(
     private val activity: FragmentActivity
 ) {
     private var onSuccessHandler: (() -> Unit)? = null
     private var onFailHandler: ((message: String) -> Unit)? = null
 
-    private val requestCameraPermissionLauncher by lazy {
-        activity.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
-            val isCameraPermissionGranted = result[Manifest.permission.CAMERA] ?: false
+    private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<Array<String>>
 
-            if (isCameraPermissionGranted) {
-                onSuccessHandler?.invoke()
-            } else {
-                onFailHandler?.invoke("Camera permission required")
+    fun init() {
+        requestCameraPermissionLauncher =
+            activity.registerForActivityResult(RequestMultiplePermissions()) { result ->
+                val isCameraPermissionGranted = result[Manifest.permission.CAMERA] ?: false
+
+                if (isCameraPermissionGranted) {
+                    onSuccessHandler?.invoke()
+                } else {
+                    onFailHandler?.invoke("Camera permission required")
+                }
             }
-        }
     }
 
     fun checkAndRequestPermissionsIfNeeded(

@@ -13,7 +13,7 @@ import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ui.util.getCursorPosition
-import ui.util.moveCursor
+import ui.util.moveCursorAnimated
 import kotlin.math.abs
 
 fun main(args: Array<String>) {
@@ -68,20 +68,25 @@ class App : Application() {
 
     private var previousDetection: Detection? = null
 
+    private var previousDetectionTime = 0L
+
     private fun processDetection(detection: Detection) {
+        val currentDetectionTime = System.currentTimeMillis()
         previousDetection?.let {
             val deltaX = convertToScreenPosition(it.x - detection.x)
             val deltaY = convertToScreenPosition(it.y - detection.y)
 
             if (abs(deltaX) > MOVE_THRESHOLD || abs(deltaY) > MOVE_THRESHOLD) {
                 val currentCursorPosition = getCursorPosition()
-                moveCursor(
+                moveCursorAnimated(
                     currentCursorPosition.x + deltaX,
-                    currentCursorPosition.y + deltaY
+                    currentCursorPosition.y + deltaY,
+                    currentDetectionTime - previousDetectionTime
                 )
             }
         }
         previousDetection = detection
+        previousDetectionTime = currentDetectionTime
     }
 
     private fun convertToScreenPosition(position: Float): Int {

@@ -1,5 +1,7 @@
 package data
 
+import com.example.data.BluetoothDeviceRepository
+
 fun main() {
     val deviceRepository: DeviceRepository = BluetoothDeviceRepository()
 

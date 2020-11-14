@@ -1,39 +1,32 @@
-package ui
+package com.example.view
 
-import data.BluetoothDeviceRepository
+import com.example.Detection
+import com.example.Styles
+import com.example.data.BluetoothDeviceRepository
 import data.DeviceRepository
-import javafx.application.Application
-import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
-import javafx.scene.Scene
-import javafx.stage.Stage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import tornadofx.View
+import tornadofx.addClass
+import tornadofx.hbox
+import tornadofx.label
 import ui.util.getCursorPosition
 import ui.util.moveCursorAnimated
 import kotlin.math.abs
 
-fun main(args: Array<String>) {
-    Application.launch(App::class.java, *args)
-}
-
-class App : Application() {
+class MainView : View("Hello TornadoFX") {
 
     private val deviceRepository: DeviceRepository = BluetoothDeviceRepository()
 
-    override fun start(primaryStage: Stage) {
-        setupUI(primaryStage)
-        loadDetections()
-    }
+    override val root = hbox {
+        label(title) {
+            addClass(Styles.heading)
+        }
 
-    private fun setupUI(primaryStage: Stage) {
-        val root = FXMLLoader.load<Parent>(javaClass.getResource("sample.fxml"))
-        primaryStage.title = "Hello World"
-        primaryStage.scene = Scene(root, 300.0, 275.0)
-        primaryStage.show()
+        loadDetections()
     }
 
     private fun loadDetections() {

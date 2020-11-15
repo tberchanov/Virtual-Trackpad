@@ -1,0 +1,26 @@
+<annotation>
+	<folder>fingers</folder>
+	<filename>finger1.jpg</filename>
+	<path>/home/anatolii/Downloads/fingers/finger1.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>960</width>
+		<height>1280</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>finger</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>490</xmin>
+			<ymin>827</ymin>
+			<xmax>594</xmax>
+			<ymax>959</ymax>
+		</bndbox>
+	</object>
+</annotation>

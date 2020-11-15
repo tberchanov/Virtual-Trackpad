@@ -1,0 +1,26 @@
+<annotation>
+	<folder>new_fingers</folder>
+	<filename>finger27.jpg</filename>
+	<path>/home/anatolii/Downloads/new_fingers/finger27.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>960</width>
+		<height>1280</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>finger</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>594</xmin>
+			<ymin>1029</ymin>
+			<xmax>675</xmax>
+			<ymax>1125</ymax>
+		</bndbox>
+	</object>
+</annotation>

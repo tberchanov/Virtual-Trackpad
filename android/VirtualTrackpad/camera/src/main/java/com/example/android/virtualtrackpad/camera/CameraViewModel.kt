@@ -59,9 +59,7 @@ internal class CameraViewModel @ViewModelInject constructor(
         // TODO probably would be faster to use Channel|Flow instead of creation each time coroutine
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                if (result.objects.isNotEmpty()) {
-                    sendDetectionsUseCase.execute(result.objects)
-                }
+                sendDetectionsUseCase.execute(result)
             } catch (e: Exception) {
                 // TODO need to process cases in progress of sending data when Bluetooth became disabled, or Bluetooth connection corrupted
                 Log.e("CameraViewModel", "Send data failure", e)

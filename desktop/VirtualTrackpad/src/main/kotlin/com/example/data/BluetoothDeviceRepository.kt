@@ -7,7 +7,6 @@ import javax.microedition.io.Connector
 import javax.microedition.io.StreamConnection
 import javax.microedition.io.StreamConnectionNotifier
 
-// TODO need to add error handling and logging
 class BluetoothDeviceRepository : DeviceRepository {
 
     /*
@@ -31,7 +30,25 @@ class BluetoothDeviceRepository : DeviceRepository {
 
     override fun readData(): String {
         deviceInputStream?.read(inputBuffer)
-        return String(inputBuffer)
+        return String(inputBuffer.getNotEmptyBytes())
+    }
+
+    private fun ByteArray.getNotEmptyBytes(): ByteArray {
+        val lastNotEmptyIndex = getLastNotEmptyIndex(this)
+        return if (lastNotEmptyIndex == -1) {
+            this
+        } else {
+            this.copyOf(lastNotEmptyIndex.inc())
+        }
+    }
+
+    private fun getLastNotEmptyIndex(byteArray: ByteArray): Int {
+        for (i in (byteArray.size - 1) downTo 0) {
+            if (byteArray[i] != 0.toByte()) {
+                return i
+            }
+        }
+        return -1
     }
 
     override fun closeConnection() {

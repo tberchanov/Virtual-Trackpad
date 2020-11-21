@@ -7,6 +7,7 @@ class CommandProcessingContext(
 ) : CommandProcessor {
 
     override fun processCommand(command: Command): Boolean {
+        println("processCommand: $command")
         commandProcessors.forEach { processor ->
             if (processor.processCommand(command)) {
                 return true

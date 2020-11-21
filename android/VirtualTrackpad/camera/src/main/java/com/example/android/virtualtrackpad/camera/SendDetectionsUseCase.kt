@@ -24,7 +24,7 @@ internal class SendDetectionsUseCase @Inject constructor(
         val data = detections.map {
             it.location
         }.joinToString(separator = DETECTIONS_SEPARATOR) {
-            "${it.centerX()} ${it.centerY()}"
+            "{${it.centerX()} ${it.centerY()}}"
         }
         deviceRepository.sendData(data)
     }

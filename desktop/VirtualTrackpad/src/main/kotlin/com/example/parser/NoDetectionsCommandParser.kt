@@ -6,12 +6,14 @@ import com.example.model.command.NoDetectionsCommand
 class NoDetectionsCommandParser : BaseCommandParser() {
 
     override fun parse(text: String): Command {
-        // TODO implement logic of parsing NoDetectionsCommand
-        val isItNoDetectionsCommand = false
-        return if (isItNoDetectionsCommand) {
+        return if (text == NO_DETECTIONS) {
             NoDetectionsCommand()
         } else {
             nextParser!!.parse(text)
         }
+    }
+
+    companion object {
+        private const val NO_DETECTIONS = "NoDetections"
     }
 }

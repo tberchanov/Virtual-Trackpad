@@ -8,4 +8,18 @@ interface MainView {
 
     fun getCursorPosition(): Point
 
+    fun setProgressVisibility(visible: Boolean)
+
+    fun showError(text: String)
+
+    fun showMessage(text: String)
+
+    fun hideLabel()
+
+    fun disableWaitForConnectionButton(disabled: Boolean)
+
+    fun showWaitForConnectionButton()
+
+    fun showCloseConnectionButton()
+
 }

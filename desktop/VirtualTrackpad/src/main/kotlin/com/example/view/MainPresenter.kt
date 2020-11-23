@@ -6,5 +6,7 @@ interface MainPresenter {
 
     fun clear()
 
-    fun loadDetections()
+    fun onWaitForDeviceClicked()
+
+    fun onCloseConnectionClicked()
 }

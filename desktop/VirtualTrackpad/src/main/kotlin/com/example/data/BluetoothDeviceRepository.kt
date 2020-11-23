@@ -1,6 +1,6 @@
 package com.example.data
 
-import data.DeviceRepository
+import com.example.exceptions.ConnectionCorruptedException
 import java.io.InputStream
 import javax.bluetooth.UUID
 import javax.microedition.io.Connector
@@ -22,14 +22,20 @@ class BluetoothDeviceRepository : DeviceRepository {
 
     private val inputBuffer = ByteArray(DEFAULT_INPUT_BUFFER_SIZE)
 
+    private val streamConnNotifier = Connector.open(connectionString) as StreamConnectionNotifier
+
     override fun waitForConnection() {
-        val streamConnNotifier = Connector.open(connectionString) as StreamConnectionNotifier
         streamConnection = streamConnNotifier.acceptAndOpen()
         deviceInputStream = streamConnection?.openInputStream()
     }
 
     override fun readData(): String {
-        deviceInputStream?.read(inputBuffer)
+        val receivedBytesAmount = deviceInputStream?.read(inputBuffer)
+
+        if (receivedBytesAmount == NO_MORE_DATA) {
+            throw ConnectionCorruptedException()
+        }
+
         return String(inputBuffer.getNotEmptyBytes())
     }
 
@@ -60,6 +66,8 @@ class BluetoothDeviceRepository : DeviceRepository {
     }
 
     companion object {
+
+        private const val NO_MORE_DATA = -1
 
         private const val DEFAULT_INPUT_BUFFER_SIZE = 80
 

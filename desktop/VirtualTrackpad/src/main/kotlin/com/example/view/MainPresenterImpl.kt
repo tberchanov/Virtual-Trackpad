@@ -35,6 +35,7 @@ class MainPresenterImpl(
         stopLoadDetections = true
         deviceRepository.closeConnection()
         view?.showWaitForConnectionButton()
+        view?.hideLabel()
     }
 
     private fun waitForConnection() {

@@ -5,7 +5,7 @@ internal enum class ConfigType {
     MULTIPLE_DETECTIONS_ENABLED,
     PREVIEW_ENABLED,
     DRAW_DETECTIONS_ENABLED,
-    IS_QUANTIZED, // TODO need to create quantized module
+    IS_QUANTIZED, // TODO need to create quantized model
     NNAPI_ENABLED,
     GPU_ENABLED,
     THREADS_QUANTITY

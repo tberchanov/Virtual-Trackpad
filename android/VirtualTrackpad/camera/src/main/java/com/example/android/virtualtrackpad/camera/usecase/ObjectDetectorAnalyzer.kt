@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.camera
+package com.example.android.virtualtrackpad.camera.usecase
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -138,5 +138,8 @@ class ObjectDetectorAnalyzer(
         val imageWidth: Int,
         val imageHeight: Int,
         val imageRotationDegrees: Int
-    )
+    ) {
+
+        constructor() : this(emptyList(), 0, 0, 0)
+    }
 }

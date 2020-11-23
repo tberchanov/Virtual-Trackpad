@@ -2,6 +2,7 @@ package com.example.android.virtualtrackpad.camera
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.UseCase
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.fragment.app.Fragment
@@ -25,10 +26,23 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
     private val viewModel: CameraViewModel by viewModels()
 
+    private val sendDetectionsErrorDialog by lazy {
+        AlertDialog.Builder(requireContext())
+            .setCancelable(false)
+            .setTitle(R.string.send_detections_error_title)
+            .setMessage(R.string.send_detections_error_message)
+            .setPositiveButton(R.string.send_detections_error_button) { _, _ -> navigation.back() }
+            .create()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.detectionResult.observe(viewLifecycleOwner, result_overlay::updateResults)
+        viewModel.sendDetectionException.observe(
+            viewLifecycleOwner,
+            { processSendDetectionException() }
+        )
 
         cameraPermissionsResolver.checkAndRequestPermissionsIfNeeded(
             onSuccess = {
@@ -39,6 +53,12 @@ class CameraFragment : Fragment(R.layout.fragment_camera) {
 
         settings_button.setOnClickListener {
             navigation.navigateToSettings()
+        }
+    }
+
+    private fun processSendDetectionException() {
+        if (!sendDetectionsErrorDialog.isShowing) {
+            sendDetectionsErrorDialog.show()
         }
     }
 

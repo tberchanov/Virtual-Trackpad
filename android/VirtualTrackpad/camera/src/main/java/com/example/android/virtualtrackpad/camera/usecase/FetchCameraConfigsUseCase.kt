@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.camera
+package com.example.android.virtualtrackpad.camera.usecase
 
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.ImageAnalysis

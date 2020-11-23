@@ -1,7 +1,7 @@
 package com.example.android.virtualtrackpad.camera.di
 
 import android.content.Context
-import com.example.android.virtualtrackpad.camera.ObjectDetectorAnalyzer
+import com.example.android.virtualtrackpad.camera.usecase.ObjectDetectorAnalyzer
 import com.example.android.virtualtrackpad.core.DetectionConfigs
 
 internal class DetectionAnalyzerFactoryImpl(

@@ -1,4 +1,4 @@
-package com.example.android.virtualtrackpad.camera
+package com.example.android.virtualtrackpad.camera.usecase
 
 import com.example.android.virtualtrackpad.DetectionResult
 import com.example.android.virtualtrackpad.data.device.connection.DeviceRepository

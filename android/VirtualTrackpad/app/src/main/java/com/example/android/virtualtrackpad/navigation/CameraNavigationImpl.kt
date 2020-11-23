@@ -14,4 +14,8 @@ class CameraNavigationImpl(
     override fun navigateToSettings() {
         navController.navigate(R.id.action_camera_fragment_to_settings_fragment)
     }
+
+    override fun back() {
+        navController.popBackStack()
+    }
 }

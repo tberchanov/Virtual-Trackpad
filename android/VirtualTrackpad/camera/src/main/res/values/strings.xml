@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="send_detections_error_title">Connection problem</string>
+    <string name="send_detections_error_message">Something went wrong with connection. Please, try to reconnect.</string>
+    <string name="send_detections_error_button">Reconnect</string>
+</resources>

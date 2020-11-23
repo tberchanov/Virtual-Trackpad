@@ -2,6 +2,7 @@ package com.example.android.virtualtrackpad.data.device.connection
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
+import android.util.Log
 import java.io.IOException
 import java.io.OutputStream
 import java.util.*
@@ -51,7 +52,7 @@ internal class BluetoothDeviceRepository : DeviceRepository {
             bluetoothOutputStream?.flush()
             bluetoothSocket?.close()
         } catch (e: IOException) {
-            // TODO exception should be delivered to the consumer
+            Log.e("BluetoothRepository", "closeConnection exception", e)
             return
         }
         bluetoothOutputStream = null

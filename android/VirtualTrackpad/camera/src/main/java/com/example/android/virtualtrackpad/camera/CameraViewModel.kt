@@ -10,24 +10,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.virtualtrackpad.camera.exception.SendDetectionsException
 import com.example.android.virtualtrackpad.camera.model.CameraConfigs
+import com.example.android.virtualtrackpad.camera.usecase.CloseConnectionUseCase
+import com.example.android.virtualtrackpad.camera.usecase.FetchCameraConfigsUseCase
+import com.example.android.virtualtrackpad.camera.usecase.ObjectDetectorAnalyzer
+import com.example.android.virtualtrackpad.camera.usecase.SendDetectionsUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 internal class CameraViewModel @ViewModelInject constructor(
     private val fetchCameraConfigsUseCase: FetchCameraConfigsUseCase,
     private val sendDetectionsUseCase: SendDetectionsUseCase,
+    private val closeConnectionUseCase: CloseConnectionUseCase,
 ) : ViewModel() {
 
     val detectionResult = MutableLiveData<ObjectDetectorAnalyzer.Result>()
+
+    val sendDetectionException = MutableLiveData<SendDetectionsException>()
 
     val cameraSelector = CameraSelector.Builder()
         .requireLensFacing(CameraSelector.LENS_FACING_BACK)
         .build()
 
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
+
+    private val detectionResultsChannel = Channel<ObjectDetectorAnalyzer.Result>(Channel.UNLIMITED)
+
+    init {
+        processDetections()
+    }
 
     fun getProcessCameraProvider(
         context: Context,
@@ -56,18 +73,24 @@ internal class CameraViewModel @ViewModelInject constructor(
         if (drawDetections) {
             detectionResult.value = result
         }
-        // TODO probably would be faster to use Channel|Flow instead of creation each time coroutine
+        detectionResultsChannel.sendBlocking(result)
+    }
+
+    private fun processDetections() {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                sendDetectionsUseCase.execute(result)
-            } catch (e: Exception) {
-                // TODO need to process cases in progress of sending data when Bluetooth became disabled, or Bluetooth connection corrupted
-                Log.e("CameraViewModel", "Send data failure", e)
+            for (detection in detectionResultsChannel) {
+                try {
+                    sendDetectionsUseCase.execute(detection)
+                } catch (e: IOException) {
+                    Log.e("CameraViewModel", "Send data failure", e)
+                    sendDetectionException.postValue(SendDetectionsException())
+                }
             }
         }
     }
 
     override fun onCleared() {
+        closeConnectionUseCase.execute()
         executor.shutdown()
         super.onCleared()
     }

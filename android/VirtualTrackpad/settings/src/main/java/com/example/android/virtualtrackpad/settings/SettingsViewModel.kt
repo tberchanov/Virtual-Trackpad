@@ -1,7 +1,6 @@
 package com.example.android.virtualtrackpad.settings
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,24 +13,24 @@ internal class SettingsViewModel @ViewModelInject constructor(
     private val saveConfigItemsUseCase: SaveConfigItemsUseCase,
 ) : ViewModel() {
 
-    fun loadConfigItems(): LiveData<List<ConfigItem>> {
-        val configItems = MutableLiveData<List<ConfigItem>>()
+    val saveResult = MutableLiveData<Result<Unit>>()
+
+    val configItems = MutableLiveData<List<ConfigItem>>()
+
+    fun loadConfigItems() {
         viewModelScope.launch(Dispatchers.IO) {
             loadConfigItemsUseCase.execute()
                 .let(configItems::postValue)
         }
-        return configItems
     }
 
-    fun saveConfigItems(configItems: List<ConfigItem>): LiveData<Result<Unit>> {
-        val result = MutableLiveData<Result<Unit>>()
+    fun saveConfigItems(configItems: List<ConfigItem>) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 saveConfigItemsUseCase.execute(configItems)
             }.let {
-                result.postValue(it)
+                saveResult.postValue(it)
             }
         }
-        return result
     }
 }

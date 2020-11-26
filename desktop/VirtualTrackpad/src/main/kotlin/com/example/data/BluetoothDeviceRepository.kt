@@ -22,11 +22,18 @@ class BluetoothDeviceRepository : DeviceRepository {
 
     private val inputBuffer = ByteArray(DEFAULT_INPUT_BUFFER_SIZE)
 
-    private val streamConnNotifier = Connector.open(connectionString) as StreamConnectionNotifier
+    private lateinit var streamConnNotifier: StreamConnectionNotifier
 
     override fun waitForConnection() {
-        streamConnection = streamConnNotifier.acceptAndOpen()
+        streamConnection = getStreamConnNotifier().acceptAndOpen()
         deviceInputStream = streamConnection?.openInputStream()
+    }
+
+    private fun getStreamConnNotifier(): StreamConnectionNotifier {
+        if (!::streamConnNotifier.isInitialized) {
+            streamConnNotifier = Connector.open(connectionString) as StreamConnectionNotifier
+        }
+        return streamConnNotifier
     }
 
     override fun readData(): String {

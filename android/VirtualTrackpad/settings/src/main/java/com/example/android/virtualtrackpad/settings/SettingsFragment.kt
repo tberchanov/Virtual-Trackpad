@@ -25,23 +25,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
         settings_recycler.adapter = adapter
 
-        viewModel.loadConfigItems()
-            .observe(viewLifecycleOwner) {
-                adapter.setItems(it)
+        viewModel.configItems.observe(viewLifecycleOwner, adapter::setItems)
+        viewModel.saveResult.observe(viewLifecycleOwner) {
+            if (it.isFailure) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.invalid_settings_value)
+                    .setPositiveButton(R.string.ok, null)
+                    .show()
+            } else {
+                navigation.back()
             }
+        }
+
+        viewModel.loadConfigItems()
 
         save_settings_button.setOnClickListener {
             viewModel.saveConfigItems(adapter.configs)
-                .observe(viewLifecycleOwner) {
-                    if (it.isFailure) {
-                        AlertDialog.Builder(requireContext())
-                            .setTitle(R.string.invalid_settings_value)
-                            .setPositiveButton(R.string.ok, null)
-                            .show()
-                    } else {
-                        navigation.back()
-                    }
-                }
         }
     }
 }

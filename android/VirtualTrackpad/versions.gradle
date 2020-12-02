@@ -6,7 +6,7 @@ ext {
             name      : "1.0",
             sdk       : [
                     compile: 30,
-                    min    : 23,
+                    min    : 21,
                     target : 30,
             ],
             build     : [

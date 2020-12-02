@@ -7,7 +7,7 @@ import androidx.camera.core.ImageProxy
 import java.io.File
 import kotlin.math.abs
 
-internal object ImageUtil {
+object ImageUtil {
 
     // This value is 2 ^ 18 - 1, and is used to clamp the RGB values before their ranges
     // are normalized to eight bits.

@@ -31,7 +31,7 @@ class ObjectDetectorAnalyzer(
     private val iterationCounter = AtomicInteger(0)
 
     private val debugHelper = DebugHelper(
-        saveResult = false,
+        saveResult = true,
         context = context,
         resultHeight = config.inputSize,
         resultWidth = config.inputSize
@@ -41,7 +41,7 @@ class ObjectDetectorAnalyzer(
 
     private val uiHandler = Handler(Looper.getMainLooper())
 
-    private var inputArray = IntArray(config.inputSize * config.inputSize)
+    private val inputArray = IntArray(config.inputSize * config.inputSize)
 
     private var objectDetector: ObjectDetector? = null
 
@@ -138,8 +138,5 @@ class ObjectDetectorAnalyzer(
         val imageWidth: Int,
         val imageHeight: Int,
         val imageRotationDegrees: Int
-    ) {
-
-        constructor() : this(emptyList(), 0, 0, 0)
-    }
+    )
 }

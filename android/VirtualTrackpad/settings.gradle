@@ -1,3 +1,4 @@
+include ':benchmark_detection'
 include ':data_device_connection'
 include ':camera'
 include ':device_connection'

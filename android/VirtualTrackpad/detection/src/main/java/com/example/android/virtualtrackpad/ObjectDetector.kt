@@ -15,11 +15,11 @@ class ObjectDetector constructor(
     private val useNnapi: Boolean = false,
     private val useGPU: Boolean = false,
     private val numThreads: Int = DetectorUtils.NUM_THREADS,
-    private val minimumConfidence: Float,
-    private val numDetections: Int,
+    private val minimumConfidence: Float = 0.0f,
+    private val numDetections: Int = 10,
     private val inputSize: Int = 0,
     private val isModelQuantized: Boolean = false,
-    private val multipleDetectionsEnabled: Boolean
+    private val multipleDetectionsEnabled: Boolean = false
 ) {
 
     private var labels: List<String> = emptyList()
